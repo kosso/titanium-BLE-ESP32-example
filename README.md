@@ -14,7 +14,9 @@ The mobile application emulates a kind of joystick/gamepad and sends `x,y` value
 
 This is just an example/test to learn how to use something like this to control some motors for a robot project or something similar. 
 
+![](images/IMG_3160.PNG)
 
+![](images/IMG_3163.JPG)
 
 --------
 
