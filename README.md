@@ -2,7 +2,7 @@
 
 
 
-The folders contain the Javascript required to buid an Axway Titanium iOS application (which *must* include the [**ti.bluetooth** iOS module](https://github.com/hansemannn/titanium-bluetooth)) and also an Arduino sketch for an ESP32 micro-controller module and 64x32 OLED screen. 
+The folders contain the Javascript required to build an Axway Titanium iOS application (which *must* include the [**ti.bluetooth** iOS module](https://github.com/hansemannn/titanium-bluetooth)) and also an Arduino sketch for an ESP32 micro-controller module and 64x32 OLED screen. 
 
 The Arduino sketch uses the latest ESP32 BLE Arduino library from https://github.com/nkolban/ESP32_BLE_Arduino. 
 
