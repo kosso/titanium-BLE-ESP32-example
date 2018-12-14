@@ -13,6 +13,11 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 
+#include <Servo.h> 
+
+Servo myservoL;
+Servo myservoR;
+
 
 // TTGO ESP32 modile with OLED and 18650 Battery SDA, SCL
 SSD1306 display(0x3c, 5, 4);
@@ -63,9 +68,10 @@ float yval = 0;
 String message = ""; // test
 int counter = 0;
 
+float servoSpeedf = 0;
+int servoSpeed_int = 90; // Stopped. 0=full cw, 180=full ccw 
 String value = "";
 
-char * msg;
 
 void displayValue(float x, float y){
   display.setColor(BLACK);
@@ -121,6 +127,10 @@ class MyServerCallbacks: public BLEServerCallbacks {
     };
 };
 
+float mapf(float value, float istart, float istop, float ostart, float ostop) {
+  return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+}
+
 
 float  GetValue(String pString){
   char vTempValue[10];
@@ -158,7 +168,17 @@ class MyCallbacks: public BLECharacteristicCallbacks {
              //Serial.print("X: " + String(xval));
           } else {
             yval = GetValue(String(str));
-            //Serial.println("Y: " + String(yval));
+            Serial.print("Y: " + String(yval)+" servoSpeed: ");
+
+            servoSpeedf = mapf(yval, -1.0, 1.0, 0, 180);
+            
+            servoSpeed_int = round(servoSpeedf);
+            
+            // Serial.println(servoSpeedf);
+            
+            Serial.println(servoSpeed_int);
+            
+            
           }
           t++;
         }   
@@ -174,7 +194,15 @@ void setup() {
   Serial.begin(115200);
   Serial.println("JOYTOOTH v0.1");
 
-  Wire.begin(5, 4); // Strart OLED screen
+  Wire.begin(5, 4); // Start OLED screen
+  delay(250);
+  myservoL.attach(12);
+  myservoR.attach(13);
+
+  myservoL.write(90); // stops 360 servo
+  myservoR.write(90); // stops 360 servo
+
+  delay(250);
   
   BLEDevice::init("JOYTOOTH");
   //BLEDevice::init("Long name works now");
@@ -247,6 +275,12 @@ void loop() {
 
       // Update screen with x,y values
       displayValue(xval, yval);
+
+      myservoL.write(servoSpeed_int);
+      myservoR.write(servoSpeed_int);
+
+      delay(20);
+       
   }
   
   
